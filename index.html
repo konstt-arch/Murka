@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Марина</title>
+    <style>
+        * { user-select: none; }
+        body {
+            font-family: system-ui;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .question-card {
+            position: absolute;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        .question-text span { color: #ff1493; font-size: 1.5rem; }
+        .buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+        .btn-yes { background: #ff1493; color: white; }
+        .btn-no { background: #444; color: white; }
+        .btn-gift { background: linear-gradient(135deg, #f5af19, #f12711); color: white; }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 30px;
+            max-width: 350px;
+            text-align: center;
+        }
+        .modal-content p { font-size: 1.2rem; margin: 0 0 20px 0; }
+        .modal-close { background: #667eea; padding: 10px 25px; color: white; border: none; border-radius: 50px; cursor: pointer; }
+        .heart-bg {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ff1493;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+<div class="question-card" id="questionCard">
+    <div class="question-text">❤️ <span>Марина А.</span> ❤️
+самая красивая и пиздатая девушка в мире?</div>
+    <div class="buttons">
+        <button class="btn-yes" id="btnYes">1 - Да</button>
+        <button class="btn-no" id="btnNo">2 - Нет</button>
+        <button class="btn-gift" id="btnGift">3 - Подарить ей Iphone 17 pro max</button>
+    </div>
+</div>
+<div class="heart-bg">My Lover,My Queen 👑💓 </div>
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <p id="modalMessage"></p>
+        <button class="modal-close" onclick="closeModal()">Закрыть</button>
+    </div>
+</div>
+<script>
+    const card = document.getElementById('questionCard');
+    const btnYes = document.getElementById('btnYes');
+    const btnNo = document.getElementById('btnNo');
+    const btnGift = document.getElementById('btnGift');
+    const modal = document.getElementById('modal');
+    const modalMessage = document.getElementById('modalMessage');
+
+    function moveCardRandom() {
+        const wW = window.innerWidth, wH = window.innerHeight;
+        const cW = card.offsetWidth, cH = card.offsetHeight;
+        const maxX = Math.max(10, wW - cW - 20);
+        const maxY = Math.max(10, wH - cH - 20);
+        card.style.transition = 'none';
+        card.style.left = Math.random() * maxX + 'px';
+        card.style.top = Math.random() * maxY + 'px';
+        setTimeout(() => { card.style.transition = ''; }, 50);
+    }
+    function sho
+
+
+wModal(msg) { modalMessage.innerText = msg; modal.style.display = 'flex'; }
+    function closeModal() { modal.style.display = 'none'; }
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    btnYes.onclick = () => showModal("Естественно, Вы правы. Она что то с чем то. Взрывная девушка 💥💖");
+    btnNo.onclick = () => showModal("Ой, кажется умственно отсталый человек выбрал не тот ответ. Пожалуйста, используйте голову хоть раз помимо еды. 🧠🍔");
+    btnGift.onclick = () => moveCardRandom();
+    function setPos() {
+        const wW = window.innerWidth, wH = window.innerHeight;
+        const cW = card.offsetWidth, cH = card.offsetHeight;
+        card.style.left = Math.max(10, (wW - cW) / 2) + 'px';
+        card.style.top = Math.max(10, (wH - cH) / 2) + 'px';
+    }
+    window.onload = setPos;
+    window.onresize = setPos;
+</script>
+</body>
+</html>
