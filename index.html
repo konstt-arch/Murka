@@ -21,24 +21,20 @@
 
         /* Контейнер, который будет прыгать */
         .question-card {
-            position: absolute;
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            background: rgba(255,255,255,0.95);
-        }
+    position: absolute;
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    padding: 20px;
+    width: 70%;
+    max-width: 300px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
 
         .question-text {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: bold;
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 18px;
             color: #333;
             line-height: 1.4;
         }
@@ -50,7 +46,7 @@
 
         .buttons {
             display: flex;
-            gap: 12px;
+            gap: 8px;
             justify-content: center;
             flex-wrap: wrap;
         }
@@ -173,6 +169,19 @@
             opacity: 0.3;
             pointer-events: none;
         }
+
+        .question-card {
+        width: 75%;
+        padding: 15px;
+    }
+    .question-text {
+        font-size: 0.95rem;
+    }
+    button {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+}
     </style>
 </head>
 <body>
