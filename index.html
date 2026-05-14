@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Марина</title>
+    <title>Вопрос про Марину</title>
     <style>
-        * { user-select: none; }
+        * {
+            user-select: none;
+        }
+
         body {
-            font-family: system-ui;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             margin: 0;
@@ -15,24 +18,43 @@
             position: relative;
             overflow-x: hidden;
         }
+
+        /* Контейнер, который будет прыгать */
         .question-card {
             position: absolute;
-            background: rgba(255,255,255,0.95);
+            background: white;
             border-radius: 20px;
             padding: 25px;
             max-width: 400px;
             width: 90%;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.95);
         }
+
         .question-text {
             font-size: 1.3rem;
             font-weight: bold;
             text-align: center;
             margin-bottom: 25px;
             color: #333;
+            line-height: 1.4;
         }
-        .question-text span { color: #ff1493; font-size: 1.5rem; }
-        .buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+        .question-text span {
+            color: #ff1493;
+            font-size: 1.5rem;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         button {
             padding: 12px 20px;
             font-size: 1rem;
@@ -40,10 +62,42 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .btn-yes { background: #ff1493; color: white; }
-        .btn-no { background: #444; color: white; }
-        .btn-gift { background: linear-gradient(135deg, #f5af19, #f12711); color: white; }
+
+        button:active {
+            transform: scale(0.96);
+        }
+
+        .btn-yes {
+            background: #ff1493;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255,20,147,0.3);
+        }
+
+        .btn-yes:hover {
+            background: #db1180;
+        }
+
+        .btn-no {
+            background: #444;
+            color: white;
+        }
+
+        .btn-no:hover {
+            background: #333;
+        }
+
+        .btn-gift {
+            background: linear-gradient(135deg, #f5af19, #f12711);
+            color: white;
+        }
+
+        .btn-gift:hover {
+            transform: scale(1.05);
+        }
+
+        /* Всплывающее окно (модальное) */
         .modal {
             display: none;
             position: fixed;
@@ -55,45 +109,99 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            animation: fadeIn 0.3s;
         }
+
         .modal-content {
             background: white;
             padding: 30px;
             border-radius: 30px;
             max-width: 350px;
             text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: bounce 0.4s;
         }
-        .modal-content p { font-size: 1.2rem; margin: 0 0 20px 0; }
-        .modal-close { background: #667eea; padding: 10px 25px; color: white; border: none; border-radius: 50px; cursor: pointer; }
+
+        .modal-content p {
+            font-size: 1.2rem;
+            margin: 0 0 20px 0;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .modal-close {
+            background: #667eea;
+            padding: 10px 25px;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Анимация для рандомного перемещения */
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(10px, -10px) rotate(5deg); }
+            50% { transform: translate
+
+
+(-10px, 15px) rotate(-5deg); }
+            75% { transform: translate(5px, -5px) rotate(3deg); }
+        }
+
+        .move-animation {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        /* Красивый фон */
         .heart-bg {
             position: fixed;
             bottom: 10px;
             right: 10px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #ff1493;
-            opacity: 0.8;
+            font-size: 3rem;
+            opacity: 0.3;
             pointer-events: none;
         }
     </style>
 </head>
 <body>
+
 <div class="question-card" id="questionCard">
-    <div class="question-text">❤️ <span>Марина А.</span> ❤️
-самая красивая и пиздатая девушка в мире?</div>
+    <div class="question-text">
+        ❤️ <span>Марина А.</span> ❤️
+
+        самая красивая и пиздатая девушка в мире?
+    </div>
     <div class="buttons">
         <button class="btn-yes" id="btnYes">1 - Да</button>
         <button class="btn-no" id="btnNo">2 - Нет</button>
         <button class="btn-gift" id="btnGift">3 - Подарить ей Iphone 17 pro max</button>
     </div>
 </div>
-<div class="heart-bg">My Lover,My Queen 👑💓 </div>
+
+<div class="heart-bg">
+    My Lover,My Queen 👑💓
+</div>
+
+<!-- Модальное окно -->
 <div id="modal" class="modal">
     <div class="modal-content">
         <p id="modalMessage"></p>
         <button class="modal-close" onclick="closeModal()">Закрыть</button>
     </div>
 </div>
+
 <script>
     const card = document.getElementById('questionCard');
     const btnYes = document.getElementById('btnYes');
@@ -102,33 +210,104 @@
     const modal = document.getElementById('modal');
     const modalMessage = document.getElementById('modalMessage');
 
-    function moveCardRandom() {
-        const wW = window.innerWidth, wH = window.innerHeight;
-        const cW = card.offsetWidth, cH = card.offsetHeight;
-        const maxX = Math.max(10, wW - cW - 20);
-        const maxY = Math.max(10, wH - cH - 20);
-        card.style.transition = 'none';
-        card.style.left = Math.random() * maxX + 'px';
-        card.style.top = Math.random() * maxY + 'px';
-        setTimeout(() => { card.style.transition = ''; }, 50);
+   function moveCardRandom() {
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const cardWidth = card.offsetWidth;
+    const cardHeight = card.offsetHeight;
+
+    const maxX = Math.max(10, windowWidth - cardWidth - 20);
+    const maxY = Math.max(10, windowHeight - cardHeight - 20);
+    
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    card.style.transition = 'none';
+    
+    card.style.left = randomX + 'px';
+    card.style.top = randomY + 'px';
+}
+
+    // Функция для показа модального окна
+    function showModal(message) {
+        modalMessage.innerText = message;
+        modal.style.display = 'flex';
     }
-    function sho
+
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    // Закрытие модалки по клику вне контента
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // 1. Кнопка "Да"
+    btnYes.addEventListener('click', function() {
+        showModal("Естественно, Вы правы. Она что то с чем то. Взрывная девушка 💥💖");
+    });
+
+    // 2. Кнопка "Нет"
+    btnNo.addEventListener('click', function() {
+        showModal("Ой, кажется умственно отсталый человек выбрал не тот ответ. Пожалуйста, используйте голову хоть раз помимо еды. 🧠🍔");
+    });
+
+    // 3. Кнопка "Подарить ей Iphone 17 pro max" - перемещаем карточку
+    btnGift.addEventListener('click', function() {
+        moveCardRandom();
+    });
+
+    // Устанавливаем начальное положение карточки по центру (смещение от левого верхнего угла)
+    function setInitialPosition() {
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const cardWidth = card.offsetWidth;
+        const cardHeight = card.offsetHeight;
+        
+        const startX = (windowWidth / 2) - (cardWidth / 2);
+        const startY = (windowHeight / 2) - (cardHeight / 2);
+        
+        card.style.left = Math.max(10, startX) + 'px';
+        card.style.top = Math.max(10, startY) + 'px';
 
 
-wModal(msg) { modalMessage.innerText = msg; modal.style.display = 'flex'; }
-    function closeModal() { modal.style.display = 'none'; }
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    btnYes.onclick = () => showModal("Естественно, Вы правы. Она что то с чем то. Взрывная девушка 💥💖");
-    btnNo.onclick = () => showModal("Ой, кажется умственно отсталый человек выбрал не тот ответ. Пожалуйста, используйте голову хоть раз помимо еды. 🧠🍔");
-    btnGift.onclick = () => moveCardRandom();
-    function setPos() {
-        const wW = window.innerWidth, wH = window.innerHeight;
-        const cW = card.offsetWidth, cH = card.offsetHeight;
-        card.style.left = Math.max(10, (wW - cW) / 2) + 'px';
-        card.style.top = Math.max(10, (wH - cH) / 2) + 'px';
-    }
-    window.onload = setPos;
-    window.onresize = setPos;
+}
+    
+    // При загрузке ставим по центру
+    window.addEventListener('load', setInitialPosition);
+    
+    // При изменении размера окна — корректируем позицию (чтобы не улетала за границы)
+    window.addEventListener('resize', function() {
+        const currentLeft = parseFloat(card.style.left);
+        const currentTop = parseFloat(card.style.top);
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const cardWidth = card.offsetWidth;
+        const cardHeight = card.offsetHeight;
+        
+        let newLeft = currentLeft;
+        let newTop = currentTop;
+        
+        if (currentLeft + cardWidth > windowWidth - 10) {
+            newLeft = windowWidth - cardWidth - 10;
+        }
+        if (currentLeft < 10) {
+            newLeft = 10;
+        }
+        if (currentTop + cardHeight > windowHeight - 10) {
+            newTop = windowHeight - cardHeight - 10;
+        }
+        if (currentTop < 10) {
+            newTop = 10;
+        }
+        
+        card.style.left = newLeft + 'px';
+        card.style.top = newTop + 'px';
+    });
 </script>
+
 </body>
 </html>
